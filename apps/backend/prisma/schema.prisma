@@ -1,0 +1,51 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String?
+  xp           Int         @default(0)
+  level        Int         @default(1)
+  rank         String      @default("Recruit")
+  currentPath  String?
+
+  xpEvents         XPEvent[]
+  lessonProgress   LessonProgress[]
+  missionProgress  MissionProgress[]
+}
+
+model XPEvent {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  amount    Int
+  reason    String
+  createdAt DateTime @default(now())
+}
+
+model LessonProgress {
+  id         String @id @default(cuid())
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
+  lessonId   String
+  completed  Boolean @default(false)
+  xpEarned   Int     @default(0)
+  updatedAt  DateTime @default(now())
+}
+
+model MissionProgress {
+  id         String @id @default(cuid())
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
+  missionId  String
+  status     String   @default("incomplete")
+  xpEarned   Int      @default(0)
+  updatedAt  DateTime @default(now())
+}

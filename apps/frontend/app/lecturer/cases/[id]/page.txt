@@ -1,0 +1,144 @@
+"use client";
+
+import { useState } from "react";
+
+export default function LecturerCaseDetail() {
+  const [score, setScore] = useState("");
+  const [feedback, setFeedback] = useState("");
+
+  const handleSubmit = () => {
+    alert("Case reviewed successfully.");
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0b0f1a] text-white p-10">
+
+      {/* Header */}
+      <h1 className="text-4xl font-bold mb-2">Case Review</h1>
+      <p className="text-gray-400 mb-10">Suspicious USB Device — Student Submission</p>
+
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
+
+        {/* Evidence Panel */}
+        <div className="xl:col-span-4 bg-[#121826] p-8 rounded-xl border border-[#1c2333] shadow-lg">
+          <h2 className="text-2xl font-semibold mb-6">Evidence</h2>
+
+          <div className="space-y-4">
+
+            <div className="bg-[#0f1522] p-4 rounded-lg border border-[#1c2333]">
+              <h3 className="text-lg font-semibold mb-1">USB Metadata</h3>
+              <p className="text-gray-400 text-sm">Vendor: Kingston</p>
+              <p className="text-gray-400 text-sm">Serial: 8F29-AC11</p>
+              <p className="text-gray-400 text-sm">Format: FAT32</p>
+            </div>
+
+            <div className="bg-[#0f1522] p-4 rounded-lg border border-[#1c2333]">
+              <h3 className="text-lg font-semibold mb-1">File Listing</h3>
+              <ul className="text-gray-400 text-sm space-y-1">
+                <li>• report.docx</li>
+                <li>• passwords.txt</li>
+                <li>• system32_dump.bin</li>
+                <li>• hidden/.cache</li>
+              </ul>
+            </div>
+
+            <div className="bg-[#0f1522] p-4 rounded-lg border border-[#1c2333]">
+              <h3 className="text-lg font-semibold mb-1">Witness Statement</h3>
+              <p className="text-gray-400 text-sm">
+                “I found the USB already plugged into my workstation when I arrived.”
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Student Submission */}
+        <div className="xl:col-span-5 bg-[#121826] p-8 rounded-xl border border-[#1c2333] shadow-lg">
+          <h2 className="text-2xl font-semibold mb-6">Student Submission</h2>
+
+          <div className="bg-[#0f1522] p-6 rounded-lg border border-[#1c2333] h-[500px] overflow-y-auto">
+            <p className="text-gray-300 leading-relaxed">
+              The USB device appears to be a standard Kingston flash drive, but the presence
+              of hidden directories and a suspicious binary file suggests potential malware.
+              The FAT32 format is common, but the timestamps on the files indicate they were
+              modified recently, possibly during an unauthorised access attempt.
+              <br /><br />
+              The file "passwords.txt" is particularly concerning, as it may contain harvested
+              credentials. The hidden ".cache" directory could be used to store exfiltrated
+              data or logs from malicious activity.
+              <br /><br />
+              Based on the evidence, the device should be treated as compromised and isolated
+              for further forensic analysis.
+            </p>
+          </div>
+        </div>
+
+        {/* Scoring Panel */}
+        <div className="xl:col-span-3 bg-[#121826] p-8 rounded-xl border border-[#1c2333] shadow-lg">
+
+          <h2 className="text-2xl font-semibold mb-6">Assessment</h2>
+
+          {/* Score */}
+          <div className="mb-6">
+            <label className="text-gray-300 text-sm">Score (%)</label>
+            <input
+              type="number"
+              value={score}
+              onChange={(e) => setScore(e.target.value)}
+              className="
+                w-full mt-2 p-3 rounded-xl bg-[#0f1522] text-white 
+                border border-[#1c2333] focus:outline-none 
+                focus:ring-2 focus:ring-cyan-400
+              "
+              placeholder="Enter score"
+            />
+          </div>
+
+          {/* Feedback */}
+          <div className="mb-6">
+            <label className="text-gray-300 text-sm">Feedback</label>
+            <textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              className="
+                w-full mt-2 p-3 rounded-xl bg-[#0f1522] text-white 
+                border border-[#1c2333] focus:outline-none 
+                focus:ring-2 focus:ring-cyan-400
+              "
+              rows={6}
+              placeholder="Write feedback..."
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="space-y-4">
+
+            <button
+              onClick={handleSubmit}
+              className="
+                w-full py-3 rounded-xl font-semibold 
+                bg-gradient-to-r from-green-400 to-green-600 
+                hover:opacity-90 transition-all duration-300
+              "
+            >
+              Approve & Submit
+            </button>
+
+            <button
+              className="
+                w-full py-3 rounded-xl font-semibold 
+                bg-gradient-to-r from-red-400 to-red-600 
+                hover:opacity-90 transition-all duration-300
+              "
+            >
+              Request Resubmission
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}

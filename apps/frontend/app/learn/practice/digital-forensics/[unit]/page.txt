@@ -1,0 +1,20 @@
+"use client";
+
+import WithSidebar from "@/app/components/WithSidebar";
+import BackButton from "@/app/components/BackButton";
+
+export default function PracticePage({ params }) {
+  return (
+    <WithSidebar>
+      <BackButton />
+
+      <h1 style={{ fontSize: "2rem", fontWeight: "bold" }}>
+        Digital Forensics Practice {params.unit}
+      </h1>
+
+      <p style={{ marginTop: "1rem", opacity: 0.8 }}>
+        This is the practice section for Unit {params.unit}. Add your questions or tasks here.
+      </p>
+    </WithSidebar>
+  );
+}

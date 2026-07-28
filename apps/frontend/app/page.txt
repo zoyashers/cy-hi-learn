@@ -1,0 +1,14 @@
+import Image from "next/image";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import CookieConsent from "@/components/CookieConsent";
+
+export const metadata = {
+  title: "CY‑HI — Cyber Learning. Human Impact.",
+  description: "Learn • Practice • Grow with CY‑HI — the modern cybersecurity learning platform.",
+  openGraph: {
+    title: "CY‑HI — Cyber Learning. Human Impact.",
+    description: "Hands‑on cyber learning with real human impact.",
+    images: ["/og-image.png"]
+  }
+};

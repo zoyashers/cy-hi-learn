@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Block private areas
+Disallow: /student/
+Disallow: /lecturer/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml

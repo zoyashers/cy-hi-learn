@@ -1,0 +1,44 @@
+k/* Global background + text */
+body {
+  background-color: #111827; /* gray-900 */
+  color: #f3f4f6; /* gray-100 */
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.dark body {
+  background-color: #f3f4f6; /* gray-100 */
+  color: #111827; /* gray-900 */
+}
+
+/* Page container for consistent spacing */
+.page-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+h1 {
+  font-size: 1.875rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+.badge-glow {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4),
+              0 0 40px rgba(0, 255, 255, 0.2);
+}
+
+.badge-pulse {
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+  50% { box-shadow: 0 0 25px rgba(0,255,255,0.6); }
+  100% { box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+}

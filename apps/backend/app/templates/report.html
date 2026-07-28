@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DFIR Report</title>
+</head>
+<body>
+  <h1>{{ case.title }}</h1>
+  <p>{{ case.description }}</p>
+
+  <h2>Evidence</h2>
+  <ul>
+    {% for e in evidence %}
+      <li>{{ e }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Analysis</h2>
+  <pre>{{ analysis | tojson(indent=2) }}</pre>
+
+  <h2>Submissions</h2>
+  <ul>
+    {% for s in submissions %}
+      <li>{{ s.student_id }} — Score: {{ s.score }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

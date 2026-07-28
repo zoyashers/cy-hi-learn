@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  dfir-db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: your_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  dfir-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - dfir-db
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@dfir-db:5432/your_database
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

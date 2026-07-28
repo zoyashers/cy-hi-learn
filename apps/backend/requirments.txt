@@ -1,0 +1,7 @@
+kfastapi
+uvicorn[standard]
+sqlmodel
+sqlalchemy
+aiosqlite
+python-dotenv
+
