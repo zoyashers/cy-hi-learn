@@ -26,7 +26,7 @@ def parse_pe_file(file_path: str) -> dict | None:
     # Subsystem
     try:
         result["subsystem"] = pefile.SUBSYSTEM_TYPE.get(
-            pe.OPTIONIONAL_HEADER.Subsystem, "Unknown"
+            pe.OPTIONAL_HEADER.Subsystem, "Unknown"
         )
     except:
         result["subsystem"] = None
