@@ -1,47 +1,80 @@
-import re
 from sqlmodel import select
+
 from app.models.task import Task
 from app.models.submission_models import Submission
 from app.core.db import async_session
 
 
+def normalize(text: str) -> str:
+    return " ".join(text.strip().lower().split())
+
+
 def extract_expected_answer(description: str) -> str:
     """
-    Extracts the expected answer from the Task.description field.
+    Temporary compatibility with existing missions.
+
+    Existing tasks store their expected answer inside
+    the description using:
+
+        Expected answer: ...
+
+    This keeps the current missions working while the
+    proper mission-answer system is introduced.
     """
-    match = re.search(r"Expected answer:\s*(.*)", description)
-    return match.group(1).strip() if match else ""
+
+    if not description:
+        return ""
+
+    marker = "Expected answer:"
+
+    if marker not in description:
+        return ""
+
+    return description.split(marker, 1)[1].strip()
 
 
-def normalize(text: str) -> str:
-    """
-    Normalizes text for comparison.
-    """
-    return text.strip().lower()
+async def grade_submission(
+    task_id: int,
+    student_answer: str,
+    user_id: int,
+):
 
-
-async def grade_submission(task_id: int, student_answer: str, user_id: int):
     async with async_session() as session:
-        # Fetch task
-        task = await session.exec(select(Task).where(Task.id == task_id))
-        task = task.one()
 
-        expected = extract_expected_answer(task.description)
+        result = await session.exec(
+            select(Task).where(Task.id == task_id)
+        )
 
-        # Normalize
+        task = result.first()
+
+        if not task:
+            raise ValueError("Task not found")
+
+        expected = extract_expected_answer(
+            task.description or ""
+        )
+
         expected_norm = normalize(expected)
         student_norm = normalize(student_answer)
 
-        # Determine correctness
-        is_correct = expected_norm == student_norm
+        is_correct = (
+            bool(expected_norm)
+            and expected_norm == student_norm
+        )
 
-        # Save submission
+        score = task.max_score if is_correct else 0
+
         submission = Submission(
             task_id=task_id,
+            mission_id=task.mission_id,
             user_id=user_id,
-            student_answer=student_answer,
+            answer=student_answer,
             correct=is_correct,
+            score=score,
+            max_score=task.max_score,
+            status="graded",
         )
+
         session.add(submission)
 
         await session.commit()
@@ -52,4 +85,5 @@ async def grade_submission(task_id: int, student_answer: str, user_id: int):
             "expected_answer": expected,
             "student_answer": student_answer,
             "correct": is_correct,
+            "score": score,
         }

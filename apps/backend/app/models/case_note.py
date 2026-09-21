@@ -5,18 +5,13 @@ from typing import Optional, TYPE_CHECKING
 
 from sqlmodel import SQLModel, Field, Relationship
 
-
 if TYPE_CHECKING:
     from .case_models import Case
     from .user_models import User
 
 
-
 class CaseNote(SQLModel, table=True):
-
     __tablename__ = "case_notes"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -27,10 +22,8 @@ class CaseNote(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
-    # CONNECTIONS
+    # CASE CONNECTION
     # =====================================
 
     case_id: int = Field(
@@ -38,48 +31,21 @@ class CaseNote(SQLModel, table=True):
         index=True
     )
 
+    # =====================================
+    # AUTHOR
+    # =====================================
 
-    user_id: int = Field(
+    created_by: Optional[int] = Field(
+        default=None,
         foreign_key="users.id",
         index=True
     )
 
-
-
     # =====================================
-    # NOTE CONTENT
+    # NOTE
     # =====================================
 
-    content: str
-
-
-
-    note_type: str = Field(
-        default="investigation"
-    )
-
-
-    """
-    Types:
-
-    investigation
-    observation
-    evidence
-    hypothesis
-    lecturer_feedback
-    """
-
-
-
-    # =====================================
-    # VISIBILITY
-    # =====================================
-
-    visible_to_student: bool = Field(
-        default=True
-    )
-
-
+    note: str
 
     # =====================================
     # TIMESTAMP
@@ -89,18 +55,16 @@ class CaseNote(SQLModel, table=True):
         default_factory=datetime.utcnow
     )
 
-
-    updated_at: Optional[datetime] = None
-
-
-
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
+    case: Case = Relationship(
         back_populates="notes"
     )
 
-
-    user: Optional["User"] = Relationship()
+    author: User = Relationship(
+        sa_relationship_kwargs={
+            "foreign_keys": "[CaseNote.created_by]"
+        }
+    )

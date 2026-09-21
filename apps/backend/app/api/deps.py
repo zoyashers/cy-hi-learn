@@ -1,8 +1,12 @@
 from app.database import get_session
 
 
+async def get_db():
+    async for session in get_session():
+        yield session
+
+
 __all__ = [
-
-    "get_session"
-
+    "get_session",
+    "get_db",
 ]

@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 
 from sqlmodel import SQLModel, Field, Relationship
 
@@ -41,6 +39,6 @@ class University(SQLModel, table=True):
     )
 
 
-    memberships: list["Membership"] = Relationship(
-        back_populates="university"
+    memberships: List["Membership"] = Relationship(
+    back_populates="university"
     )

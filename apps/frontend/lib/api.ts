@@ -1,28 +1,96 @@
-export async function apiGet(path: string) {
-  const token = localStorage.getItem("token");
+import { getToken } from "./auth";
 
-  const res = await fetch(`http://localhost:8000${path}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:8000";
 
-  if (!res.ok) throw new Error("API Error");
+async function apiRequest(
+  path: string,
+  options: RequestInit = {}
+) {
+  const token = getToken();
+
+  const headers = new Headers(
+    options.headers || {}
+  );
+
+  headers.set(
+    "Content-Type",
+    "application/json"
+  );
+
+  if (token) {
+    headers.set(
+      "Authorization",
+      `Bearer ${token}`
+    );
+  }
+
+  const res = await fetch(
+    `${API_URL}${path}`,
+    {
+      ...options,
+      headers,
+    }
+  );
+
+  if (!res.ok) {
+    let detail = `API request failed: ${res.status}`;
+
+    try {
+      const data = await res.json();
+
+      if (typeof data?.detail === "string") {
+        detail = data.detail;
+      }
+    } catch {
+      // Response was not JSON.
+    }
+
+    const error = new Error(detail) as Error & {
+      status?: number;
+    };
+
+    error.status = res.status;
+
+    throw error;
+  }
+
   return res.json();
 }
 
-export async function apiPost(path: string, body: any = {}) {
-  const token = localStorage.getItem("token");
+export async function apiGet(
+  path: string
+) {
+  return apiRequest(path, {
+    method: "GET",
+  });
+}
 
-  const res = await fetch(`http://localhost:8000${path}`, {
+export async function apiPost(
+  path: string,
+  body: unknown = {}
+) {
+  return apiRequest(path, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
     body: JSON.stringify(body),
   });
+}
 
-  if (!res.ok) throw new Error("API Error");
-  return res.json();
+export async function apiPut(
+  path: string,
+  body: unknown = {}
+) {
+  return apiRequest(path, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+}
+
+export async function apiDelete(
+  path: string
+) {
+  return apiRequest(path, {
+    method: "DELETE",
+  });
 }

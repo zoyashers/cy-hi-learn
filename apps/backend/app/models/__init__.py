@@ -1,40 +1,42 @@
+# =====================================
+# CORE MODELS
+# =====================================
+
+from .level import Level
+from .university_models import University
+
+
+# =====================================
+# USER
+# =====================================
+
 from .user_models import User
 
 
 # =====================================
-# Organisation system
+# XP / GAMIFICATION
 # =====================================
 
-from .university_models import University
+from .xp import XP, XPEvent
+
+
+# =====================================
+# ACTIVITY
+# =====================================
+
+from .activity_log import ActivityLog
+from .activity_models import ActivityEvent
+
+
+# =====================================
+# ORGANISATION
+# =====================================
+
 from .membership_models import Membership
 
 
-
 # =====================================
-# XP system
-# =====================================
-
-from .xp import (
-    XP,
-    XPEvent,
-    MissionCompletion,
-)
-
-
-
-# =====================================
-# Learning system
-# =====================================
-
-from .mission import Mission
-from .task import Task
-from .level import Level
-from .submission_models import Submission
-
-
-
-# =====================================
-# Cases
+# CASE MANAGEMENT
 # =====================================
 
 from .case_models import Case
@@ -43,32 +45,36 @@ from .caseprogress_models import CaseProgress
 from .case_note import CaseNote
 
 
+# =====================================
+# MISSION SYSTEM
+# =====================================
+
+from .mission import Mission
+from .mission_completion import MissionCompletion
+from .task import Task
+
 
 # =====================================
-# Reports
+# DIGITAL FORENSICS
+# =====================================
+
+from .evidence import Evidence
+from .timeline_models import TimelineEvent
+
+
+# =====================================
+# REPORTING
 # =====================================
 
 from .report_models import Report
 
 
-
 # =====================================
-# Evidence
-# =====================================
-
-from .evidence import (
-    Evidence,
-    EvidenceAnalysis,
-)
-
-
-
-# =====================================
-# Timeline
+# SUBMISSIONS / SCORING
 # =====================================
 
-from .timeline import TimelineEvent
-
+from .submission_models import Submission
+from .score_models import Score
 
 
 # =====================================
@@ -76,68 +82,3 @@ from .timeline import TimelineEvent
 # =====================================
 
 from .soc_event import SOCEvent
-
-
-
-# =====================================
-# Scoring
-# =====================================
-
-from .score_models import Score
-
-
-
-# =====================================
-# Activity
-# =====================================
-
-from .activity_models import ActivityEvent
-from .activity_log import ActivityLog
-
-
-
-__all__ = [
-
-    "User",
-
-    # Organisation
-    "University",
-    "Membership",
-
-    # XP
-    "XP",
-    "XPEvent",
-    "MissionCompletion",
-
-    # Learning
-    "Mission",
-    "Task",
-    "Level",
-    "Submission",
-
-    # Cases
-    "Case",
-    "CaseAssignment",
-    "CaseProgress",
-    "CaseNote",
-
-    # Reports
-    "Report",
-
-    # Evidence
-    "Evidence",
-    "EvidenceAnalysis",
-
-    # Timeline
-    "TimelineEvent",
-
-    # SOC
-    "SOCEvent",
-
-    # Scoring
-    "Score",
-
-    # Activity
-    "ActivityEvent",
-    "ActivityLog",
-]

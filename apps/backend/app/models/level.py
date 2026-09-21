@@ -1,16 +1,15 @@
-from __future__ import annotations
+from typing import TYPE_CHECKING, List, Optional
 
-from typing import Optional
+from sqlmodel import SQLModel, Field, Relationship
 
-from sqlmodel import SQLModel, Field
 
+if TYPE_CHECKING:
+    from .user_models import User
 
 
 class Level(SQLModel, table=True):
 
     __tablename__ = "levels"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -21,37 +20,29 @@ class Level(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
-    # LEVEL INFORMATION
+    # LEVEL DATA
     # =====================================
 
     level_number: int = Field(
+        default=1,
         unique=True,
         index=True
     )
 
+    name: str
 
-
-    title: str
-
-
-
-    # =====================================
-    # XP REQUIREMENTS
-    # =====================================
-
-    required_xp: int
-
-
-
-    description: Optional[str] = None
-
-
+    required_xp: int = Field(
+        default=0
+    )
 
     # =====================================
-    # UNLOCKS
+    # USERS
     # =====================================
 
-    badge_reward: Optional[str] = None
+    users: List["User"] = Relationship(
+        back_populates="level",
+        sa_relationship_kwargs={
+            "lazy": "selectin"
+        }
+    )

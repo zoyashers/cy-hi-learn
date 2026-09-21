@@ -15,7 +15,6 @@ class Report(SQLModel, table=True):
 
     __tablename__ = "reports"
 
-
     # =====================================
     # IDENTIFIER
     # =====================================
@@ -24,7 +23,6 @@ class Report(SQLModel, table=True):
         default=None,
         primary_key=True
     )
-
 
     # =====================================
     # CONNECTIONS
@@ -35,12 +33,10 @@ class Report(SQLModel, table=True):
         index=True
     )
 
-
     user_id: int = Field(
         foreign_key="users.id",
         index=True
     )
-
 
     # =====================================
     # REPORT DETAILS
@@ -50,11 +46,9 @@ class Report(SQLModel, table=True):
 
     content: str
 
-
     report_type: str = Field(
         default="forensic_report"
     )
-
 
     # =====================================
     # REPORT STATUS
@@ -64,19 +58,16 @@ class Report(SQLModel, table=True):
         default="draft"
     )
 
-
     # =====================================
     # REVIEW
     # =====================================
 
     lecturer_feedback: Optional[str] = None
 
-
     reviewed_by: Optional[int] = Field(
         default=None,
         foreign_key="users.id"
     )
-
 
     # =====================================
     # EXPORT SUPPORT
@@ -84,11 +75,9 @@ class Report(SQLModel, table=True):
 
     pdf_path: Optional[str] = None
 
-
     generated_by_ai: bool = Field(
         default=False
     )
-
 
     # =====================================
     # TIMESTAMPS
@@ -98,22 +87,31 @@ class Report(SQLModel, table=True):
         default_factory=datetime.utcnow
     )
 
-
     updated_at: Optional[datetime] = None
 
-
     reviewed_at: Optional[datetime] = None
-
 
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
+    # Case this report belongs to
+    case: Case = Relationship(
         back_populates="reports"
     )
 
+    # User who created/submitted the report
+    user: User = Relationship(
+        back_populates="reports",
+        sa_relationship_kwargs={
+            "foreign_keys": "Report.user_id"
+        }
+    )
 
-    user: Optional["User"] = Relationship(
-        back_populates="reports"
+    # User who reviewed the report
+    reviewer: User = Relationship(
+        back_populates="reviewed_reports",
+        sa_relationship_kwargs={
+            "foreign_keys": "Report.reviewed_by"
+        }
     )

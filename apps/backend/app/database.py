@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession

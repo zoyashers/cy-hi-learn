@@ -1,24 +1,44 @@
 import asyncio
+
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.db import engine
 from app.models.user_models import User
-from app.core.auth import hash_password
+from app.auth.hashing import Hasher
 
 
 STUDENTS = [
-    {"email": "student1@example.com", "password": "Student123!"},
-    {"email": "student2@example.com", "password": "Student123!"},
-    {"email": "student3@example.com", "password": "Student123!"},
-    {"email": "student4@example.com", "password": "Student123!"},
+    {
+        "username": "student1",
+        "email": "student1@example.com",
+        "password": "Student123!",
+    },
+    {
+        "username": "student2",
+        "email": "student2@example.com",
+        "password": "Student123!",
+    },
+    {
+        "username": "student3",
+        "email": "student3@example.com",
+        "password": "Student123!",
+    },
+    {
+        "username": "student4",
+        "email": "student4@example.com",
+        "password": "Student123!",
+    },
 ]
 
 
 async def seed_students():
     async with AsyncSession(engine) as session:
         for stu in STUDENTS:
-            result = await session.exec(select(User).where(User.email == stu["email"]))
+            result = await session.exec(
+                select(User).where(User.email == stu["email"])
+            )
+
             existing = result.first()
 
             if existing:
@@ -26,9 +46,13 @@ async def seed_students():
                 continue
 
             user = User(
+                username=stu["username"],
                 email=stu["email"],
-                hashed_password=hash_password(stu["password"]),
+                hashed_password=Hasher.get_password_hash(
+                    stu["password"]
+                ),
                 role="student",
+                is_active=True,
             )
 
             session.add(user)

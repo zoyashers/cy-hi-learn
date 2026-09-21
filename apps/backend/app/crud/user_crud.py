@@ -6,39 +6,64 @@ from app.schemas.auth import RegisterRequest
 from app.auth.hashing import Hasher
 
 
+# =====================================
+# GET USER BY EMAIL
+# =====================================
 
 async def get_user_by_email(
     session: AsyncSession,
     email: str
 ):
-
     result = await session.exec(
-        select(User)
-        .where(User.email == email)
+        select(User).where(
+            User.email == email
+        )
     )
 
     return result.first()
 
 
+# =====================================
+# GET USER BY USERNAME
+# =====================================
+
+async def get_user_by_username(
+    session: AsyncSession,
+    username: str
+):
+    result = await session.exec(
+        select(User).where(
+            User.username == username
+        )
+    )
+
+    return result.first()
+
+
+# =====================================
+# GET USER BY ID
+# =====================================
 
 async def get_user(
     session: AsyncSession,
     user_id: int
 ):
-
     result = await session.exec(
-        select(User)
-        .where(User.id == user_id)
+        select(User).where(
+            User.id == user_id
+        )
     )
 
     return result.first()
 
 
+# =====================================
+# GET ALL USERS
+# =====================================
 
 async def get_all_users(
     session: AsyncSession
 ):
-
     result = await session.exec(
         select(User)
     )
@@ -46,6 +71,9 @@ async def get_all_users(
     return result.all()
 
 
+# =====================================
+# CREATE USER
+# =====================================
 
 async def create_user(
     session: AsyncSession,
@@ -56,20 +84,19 @@ async def create_user(
         user.password
     )
 
-
     db_user = User(
-
         username=user.username,
-
-        full_name=user.full_name,
-
+        first_name=user.first_name,
+        last_name=user.last_name,
         email=user.email,
-
         hashed_password=hashed_password,
 
-        role=user.role
-    )
+        # Public registration ALWAYS creates
+        # a student account.
+        role="student",
 
+        is_active=True,
+    )
 
     session.add(db_user)
 
@@ -80,6 +107,9 @@ async def create_user(
     return db_user
 
 
+# =====================================
+# DELETE USER
+# =====================================
 
 async def delete_user(
     session: AsyncSession,
@@ -91,12 +121,8 @@ async def delete_user(
         user_id
     )
 
-
     if user:
-
         await session.delete(user)
-
         await session.commit()
-
 
     return user

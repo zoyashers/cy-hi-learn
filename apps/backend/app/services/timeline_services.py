@@ -1,20 +1,26 @@
-from app.models.timeline import TimelineEvent
+from datetime import datetime
+
+from app.models.timeline_models import TimelineEvent
 from sqlalchemy.orm import Session
+
 
 def add_timeline_event(
     db: Session,
     case_id: int,
-    event_type: str,
-    description: str,
-    user_id: int | None = None
+    event: str,
+    event_type: str = "general",
+    description: str | None = None,
 ):
-    event = TimelineEvent(
+    timeline_event = TimelineEvent(
         case_id=case_id,
-        user_id=user_id,
+        event=event,
         event_type=event_type,
-        description=description
+        description=description,
+        timestamp=datetime.utcnow(),
     )
-    db.add(event)
+
+    db.add(timeline_event)
     db.commit()
-    db.refresh(event)
-    return event
+    db.refresh(timeline_event)
+
+    return timeline_event

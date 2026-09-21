@@ -1,22 +1,15 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 
 from sqlmodel import SQLModel, Field, Relationship
 
-
-if TYPE_CHECKING:
-    from .case_models import Case
-    from .evidence import Evidence
-
+from .case_models import Case
+from .evidence import Evidence
 
 
 class TimelineEvent(SQLModel, table=True):
 
     __tablename__ = "timeline_events"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -27,8 +20,6 @@ class TimelineEvent(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
     # CONNECTIONS
     # =====================================
@@ -38,13 +29,11 @@ class TimelineEvent(SQLModel, table=True):
         index=True
     )
 
-
     evidence_id: Optional[int] = Field(
         default=None,
-        foreign_key="evidence.id"
+        foreign_key="evidence.id",
+        index=True
     )
-
-
 
     # =====================================
     # EVENT INFORMATION
@@ -52,55 +41,23 @@ class TimelineEvent(SQLModel, table=True):
 
     event: str
 
-
-
     description: Optional[str] = None
-
-
 
     event_type: str = Field(
         default="general"
     )
 
-
-    """
-    Types:
-
-    login
-    malware_execution
-    file_creation
-    network_activity
-    privilege_change
-    data_access
-    system_event
-    """
-
-
-
     # =====================================
-    # TIMESTAMP OF INCIDENT EVENT
+    # TIMESTAMP
     # =====================================
 
     timestamp: datetime
-
-
 
     # =====================================
     # CONFIDENCE
     # =====================================
 
     confidence: Optional[str] = None
-
-
-    """
-    Examples:
-
-    confirmed
-    likely
-    suspected
-    """
-
-
 
     # =====================================
     # CREATED RECORD
@@ -110,15 +67,19 @@ class TimelineEvent(SQLModel, table=True):
         default_factory=datetime.utcnow
     )
 
-
-
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
-        back_populates="timeline_events"
+    case: Case = Relationship(
+        back_populates="timeline_events",
+        sa_relationship_kwargs={
+            "foreign_keys": "[TimelineEvent.case_id]"
+        }
     )
 
-
-    evidence: Optional["Evidence"] = Relationship()
+    evidence: Optional[Evidence] = Relationship(
+        sa_relationship_kwargs={
+            "foreign_keys": "[TimelineEvent.evidence_id]"
+        }
+    )

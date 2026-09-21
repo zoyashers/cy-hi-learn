@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
@@ -9,7 +7,6 @@ from sqlmodel import SQLModel, Field, Relationship
 if TYPE_CHECKING:
     from .user_models import User
     from .university_models import University
-
 
 
 class Membership(SQLModel, table=True):
@@ -51,11 +48,11 @@ class Membership(SQLModel, table=True):
     )
 
 
-    user: Optional["User"] = Relationship(
+    user: "User" = Relationship(
         back_populates="memberships"
     )
 
 
-    university: Optional["University"] = Relationship(
+    university: "University" = Relationship(
         back_populates="memberships"
     )

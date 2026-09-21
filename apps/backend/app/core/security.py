@@ -31,3 +31,9 @@ def verify_password(
         plain_password,
         hashed_password
     )
+
+
+
+
+# Backwards compatibility alias
+hash_password = get_password_hash

@@ -1,68 +1,323 @@
 "use client";
 
-export default function AchievementsPage() {
-  const earned = [
-    { title: "First Mission", icon: "🏅" },
-    { title: "Evidence Hunter", icon: "🔍" },
-    { title: "Registry Expert", icon: "🗂️" },
-    { title: "DFIR Tier 1", icon: "🔥" },
-  ];
+import Link from "next/link";
+import RightSidebar from "@/components/RightSidebar";
 
-  const locked = [
-    "DFIR Tier 2",
-    "Memory Analyst",
-    "Mobile Forensics Pro",
-    "Incident Responder",
-    "Forensic Examiner",
-    "Cyber Investigator",
-    "Threat Hunter",
-    "SOC Level 2",
-  ];
+const achievements = [
+  {
+    icon: "★",
+    title: "Evidence Hunter",
+    description:
+      "Complete your first evidence-analysis investigation.",
+    status: "UNLOCKED",
+    date: "3 days ago",
+  },
+  {
+    icon: "◈",
+    title: "First Investigation",
+    description:
+      "Complete your first CY-HI mission.",
+    status: "UNLOCKED",
+    date: "5 days ago",
+  },
+  {
+    icon: "⌁",
+    title: "Seven Day Streak",
+    description:
+      "Learn or investigate for seven consecutive days.",
+    status: "IN PROGRESS",
+    progress: 6,
+    target: 7,
+  },
+  {
+    icon: "◎",
+    title: "Case Closer",
+    description:
+      "Complete five investigations.",
+    status: "IN PROGRESS",
+    progress: 1,
+    target: 5,
+  },
+  {
+    icon: "◇",
+    title: "Skill Builder",
+    description:
+      "Reach Intermediate level in three skills.",
+    status: "LOCKED",
+  },
+  {
+    icon: "★",
+    title: "Investigator",
+    description:
+      "Complete ten investigations.",
+    status: "LOCKED",
+  },
+];
+
+export default function AchievementsPage() {
+  const unlocked = achievements.filter(
+    (item) => item.status === "UNLOCKED"
+  ).length;
 
   return (
-    <div className="min-h-screen bg-[#0b0f1a] text-white p-10">
+    <div className="student-app cyhi-dashboard-style-page">
+      <RightSidebar />
 
-      {/* Header */}
-      <h1 className="text-4xl font-bold mb-8">Achievements</h1>
+      <main className="student-main">
 
-      {/* Earned Badges */}
-      <h2 className="text-2xl font-semibold mb-4">Unlocked</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        {earned.map((badge, i) => (
-          <div
-            key={i}
-            className="
-              bg-[#121826] p-6 rounded-xl shadow-lg border border-[#1c2333]
-              flex flex-col items-center justify-center text-center
-              hover:shadow-cyan-500/20 transition-all duration-300
-            "
-          >
-            <div className="text-5xl mb-3">{badge.icon}</div>
-            <p className="text-lg font-semibold">{badge.title}</p>
-            <p className="text-cyan-400 text-sm mt-1">Unlocked</p>
+        <header className="student-topbar">
+          <div>
+            <Link
+              href="/dashboard"
+              className="back-button"
+            >
+              ← Back to dashboard
+            </Link>
+
+            <span className="eyebrow">
+              PROGRESS WORKSPACE
+            </span>
+
+            <h1>
+              Achievements
+            </h1>
           </div>
-        ))}
-      </div>
 
-      {/* Locked Badges */}
-      <h2 className="text-2xl font-semibold mb-4">Locked</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {locked.map((title, i) => (
-          <div
-            key={i}
-            className="
-              bg-[#121826] p-6 rounded-xl border border-[#1c2333]
-              flex flex-col items-center justify-center text-center
-              opacity-40 cursor-not-allowed
-            "
-          >
-            <div className="text-5xl mb-3">🔒</div>
-            <p className="text-lg font-semibold">{title}</p>
-            <p className="text-gray-500 text-sm mt-1">Locked</p>
+          <div className="student-topbar-actions">
+            <button
+              className="icon-button"
+              type="button"
+            >
+              ◌
+            </button>
+
+            <Link
+              href="/profile"
+              className="topbar-avatar"
+            >
+              TS
+            </Link>
           </div>
-        ))}
-      </div>
+        </header>
 
+        <section className="student-hero inner-page-hero">
+          <div className="student-hero-copy">
+            <span className="hero-kicker">
+              YOUR PROGRESS
+            </span>
+
+            <h2>
+              Every investigation
+              <span> leaves a mark.</span>
+            </h2>
+
+            <p>
+              Achievements recognise the habits, skills and
+              milestones you build throughout your investigation
+              journey.
+            </p>
+          </div>
+
+          <div className="level-card">
+            <div className="level-card-top">
+              <span>UNLOCKED</span>
+              <strong>
+                {unlocked}
+              </strong>
+            </div>
+
+            <div className="mission-summary-ring">
+              <div>
+                <strong>
+                  {Math.round(
+                    (unlocked / achievements.length) *
+                      100
+                  )}
+                  %
+                </strong>
+
+                <span>COMPLETE</span>
+              </div>
+            </div>
+
+            <div className="level-progress">
+              <div className="level-progress-label">
+                <span>
+                  Achievement progress
+                </span>
+
+                <span>
+                  {unlocked}/{achievements.length}
+                </span>
+              </div>
+
+              <div className="level-progress-track">
+                <div
+                  className="level-progress-fill"
+                  style={{
+                    width: `${
+                      (unlocked /
+                        achievements.length) *
+                      100
+                    }%`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="student-stats">
+          <div className="stat-card">
+            <span className="stat-icon">★</span>
+            <div>
+              <span className="stat-label">
+                UNLOCKED
+              </span>
+              <strong>{unlocked}</strong>
+              <small>Achievements earned</small>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-icon">◈</span>
+            <div>
+              <span className="stat-label">
+                IN PROGRESS
+              </span>
+              <strong>2</strong>
+              <small>Almost there</small>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-icon">◇</span>
+            <div>
+              <span className="stat-label">
+                LOCKED
+              </span>
+              <strong>2</strong>
+              <small>More to discover</small>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-icon">✓</span>
+            <div>
+              <span className="stat-label">
+                LATEST
+              </span>
+              <strong>3d</strong>
+              <small>Evidence Hunter</small>
+            </div>
+          </div>
+        </section>
+
+        <section className="dashboard-panel">
+          <div className="panel-heading">
+            <div>
+              <span className="panel-kicker">
+                ACHIEVEMENT BOARD
+              </span>
+
+              <h3>
+                Your milestones
+              </h3>
+            </div>
+          </div>
+
+          <div className="achievement-grid">
+            {achievements.map((achievement) => (
+              <div
+                className={`achievement-card ${
+                  achievement.status ===
+                  "UNLOCKED"
+                    ? "achievement-unlocked"
+                    : ""
+                } ${
+                  achievement.status === "LOCKED"
+                    ? "achievement-locked"
+                    : ""
+                }`}
+                key={achievement.title}
+              >
+                <div className="achievement-icon">
+                  {achievement.icon}
+                </div>
+
+                <div className="achievement-copy">
+                  <span className="achievement-status">
+                    {achievement.status}
+                  </span>
+
+                  <h4>
+                    {achievement.title}
+                  </h4>
+
+                  <p>
+                    {achievement.description}
+                  </p>
+
+                  {achievement.progress !==
+                    undefined && (
+                    <div className="achievement-progress">
+                      <div className="skill-bar">
+                        <div
+                          style={{
+                            width: `${
+                              (achievement.progress /
+                                achievement.target!) *
+                              100
+                            }%`,
+                          }}
+                        />
+                      </div>
+
+                      <span>
+                        {achievement.progress}/
+                        {achievement.target}
+                      </span>
+                    </div>
+                  )}
+
+                  {achievement.date && (
+                    <small>
+                      Earned {achievement.date}
+                    </small>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="learning-next dashboard-bottom-cta">
+          <div>
+            <span className="hero-kicker">
+              KEEP GOING
+            </span>
+
+            <h2>
+              Your next achievement
+              <span> is already waiting.</span>
+            </h2>
+
+            <p>
+              Keep learning, investigating and building your
+              skills. Progress through CY-HI naturally unlocks
+              new milestones.
+            </p>
+          </div>
+
+          <Link
+            href="/missions"
+            className="primary-action"
+          >
+            Continue investigating →
+          </Link>
+        </section>
+
+      </main>
     </div>
   );
 }

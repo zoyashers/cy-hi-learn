@@ -149,11 +149,11 @@ class SOCEvent(SQLModel, table=True):
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
+    case: Case = Relationship(
         back_populates="soc_events"
     )
 
 
-    evidence: Optional["Evidence"] = Relationship(
+    evidence: Evidence = Relationship(
         back_populates="soc_events"
     )

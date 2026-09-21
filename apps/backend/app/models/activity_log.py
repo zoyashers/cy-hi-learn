@@ -1,21 +1,17 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from sqlmodel import SQLModel, Field, Relationship
-
 
 if TYPE_CHECKING:
     from .user_models import User
 
 
-
 class ActivityLog(SQLModel, table=True):
 
     __tablename__ = "activity_logs"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -26,10 +22,8 @@ class ActivityLog(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
-    # USER CONNECTION
+    # USER
     # =====================================
 
     user_id: int = Field(
@@ -37,76 +31,23 @@ class ActivityLog(SQLModel, table=True):
         index=True
     )
 
-
+    user: User = Relationship(
+        back_populates="activity_logs"
+    )
 
     # =====================================
-    # ACTION INFORMATION
+    # ACTIVITY DATA
     # =====================================
 
     action: str
 
-
-
-    category: str = Field(
-        default="system"
-    )
-
-
-    """
-    Categories:
-
-    authentication
-    user_management
-    evidence
-    investigation
-    assessment
-    admin
-    """
-
-
-
     description: Optional[str] = None
-
-
-
-    # =====================================
-    # REQUEST INFORMATION
-    # =====================================
-
-    ip_address: Optional[str] = None
-
-
-
-    user_agent: Optional[str] = None
-
-
-
-    # =====================================
-    # OPTIONAL TARGET
-    # =====================================
-
-    entity_type: Optional[str] = None
-
-
-
-    entity_id: Optional[int] = None
-
-
 
     # =====================================
     # TIMESTAMP
     # =====================================
 
     created_at: datetime = Field(
-        default_factory=datetime.utcnow
-    )
-
-
-
-    # =====================================
-    # RELATIONSHIP
-    # =====================================
-
-    user: Optional["User"] = Relationship(
-        back_populates="activity_logs"
+        default_factory=datetime.utcnow,
+        nullable=False,
     )

@@ -1,30 +1,31 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+from uuid import uuid4
 
 from jose import jwt
 
 from app.core.config import settings
 
 
+def create_access_token(data: dict) -> str:
+    now = datetime.now(timezone.utc)
 
-def create_access_token(data: dict):
-
-    to_encode = data.copy()
-
-
-    expire = datetime.utcnow() + timedelta(
+    expire = now + timedelta(
         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
+    to_encode = data.copy()
 
     to_encode.update(
         {
-            "exp": expire
+            "iat": now,
+            "exp": expire,
+            "jti": str(uuid4()),
+            "type": "access",
         }
     )
-
 
     return jwt.encode(
         to_encode,
         settings.JWT_SECRET_KEY,
-        algorithm=settings.JWT_ALGORITHM
+        algorithm=settings.JWT_ALGORITHM,
     )

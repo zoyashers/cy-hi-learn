@@ -11,12 +11,9 @@ if TYPE_CHECKING:
     from .user_models import User
 
 
-
 class CaseAssignment(SQLModel, table=True):
 
     __tablename__ = "case_assignments"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -27,8 +24,6 @@ class CaseAssignment(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
     # CONNECTIONS
     # =====================================
@@ -38,39 +33,24 @@ class CaseAssignment(SQLModel, table=True):
         index=True
     )
 
-
     user_id: int = Field(
         foreign_key="users.id",
         index=True
     )
 
-
+    assigned_by: Optional[int] = Field(
+        default=None,
+        foreign_key="users.id",
+        index=True
+    )
 
     # =====================================
     # ASSIGNMENT INFORMATION
     # =====================================
 
-    assigned_by: Optional[int] = Field(
-        default=None,
-        foreign_key="users.id"
-    )
-
-
-
     role: str = Field(
         default="student"
     )
-
-
-    """
-    Possible:
-
-    student
-    reviewer
-    investigator
-    """
-
-
 
     # =====================================
     # STATUS
@@ -80,17 +60,6 @@ class CaseAssignment(SQLModel, table=True):
         default="assigned"
     )
 
-
-    """
-    assigned
-    started
-    submitted
-    completed
-    archived
-    """
-
-
-
     # =====================================
     # TIMESTAMPS
     # =====================================
@@ -99,23 +68,26 @@ class CaseAssignment(SQLModel, table=True):
         default_factory=datetime.utcnow
     )
 
-
     completed_at: Optional[datetime] = None
-
-
 
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
+    case: Case = Relationship(
         back_populates="assignments"
     )
 
-
-    user: Optional["User"] = Relationship(
+    user: User = Relationship(
         back_populates="case_assignments",
         sa_relationship_kwargs={
             "foreign_keys": "[CaseAssignment.user_id]"
+        }
+    )
+
+    assigned_by_user: User = Relationship(
+        back_populates="assigned_case_assignments",
+        sa_relationship_kwargs={
+            "foreign_keys": "[CaseAssignment.assigned_by]"
         }
     )

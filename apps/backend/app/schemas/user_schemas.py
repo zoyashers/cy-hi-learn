@@ -4,21 +4,19 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 
-
 # =====================================
 # USER CREATION
 # =====================================
 
 class UserCreate(BaseModel):
-
     email: EmailStr
-
     username: str
-
     password: str
 
-    full_name: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
+    role: str = "student"
 
 
 # =====================================
@@ -26,11 +24,8 @@ class UserCreate(BaseModel):
 # =====================================
 
 class UserLogin(BaseModel):
-
     email: EmailStr
-
     password: str
-
 
 
 # =====================================
@@ -38,25 +33,23 @@ class UserLogin(BaseModel):
 # =====================================
 
 class UserRead(BaseModel):
-
     id: int
-
     email: str
-
     username: str
 
-    full_name: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
     role: str
-
-    active: bool
+    is_active: bool
+    xp: int = 0
+    level_id: Optional[int] = None
 
     created_at: datetime
-
+    updated_at: datetime
 
     class Config:
         from_attributes = True
-
 
 
 # =====================================
@@ -64,7 +57,12 @@ class UserRead(BaseModel):
 # =====================================
 
 class Token(BaseModel):
-
     access_token: str
-
     token_type: str = "bearer"
+
+
+# =====================================
+# BACKWARDS COMPATIBILITY
+# =====================================
+
+UserOut = UserRead

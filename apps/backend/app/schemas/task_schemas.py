@@ -95,3 +95,8 @@ class SubmissionReview(BaseModel):
     feedback: str | None = None
 
     approved: bool = False
+
+
+
+# Backwards compatibility alias
+TaskOut = TaskRead

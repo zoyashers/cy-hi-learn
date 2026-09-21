@@ -1,21 +1,17 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlmodel import SQLModel, Field, Relationship
 
 
 if TYPE_CHECKING:
+    from .mission_completion import MissionCompletion
     from .task import Task
-
 
 
 class Mission(SQLModel, table=True):
 
     __tablename__ = "missions"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -23,145 +19,103 @@ class Mission(SQLModel, table=True):
 
     id: Optional[int] = Field(
         default=None,
-        primary_key=True
+        primary_key=True,
     )
 
-
-
     # =====================================
-    # BASIC INFORMATION
+    # MISSION IDENTITY
     # =====================================
 
     title: str
 
-
-
     description: Optional[str] = None
 
-
-
     # =====================================
-    # LEARNING PATH
+    # CURRICULUM
     # =====================================
 
-    pathway: str = Field(
-        default="digital_forensics"
+    # TB unit / learning area this mission belongs to
+    learning_unit: Optional[str] = Field(
+        default=None,
+        index=True,
     )
 
-
-    """
-    Possible values:
-
-    digital_forensics
-    soc_analyst
-    malware_analysis
-    incident_response
-    threat_hunting
-    """
-
-
-
-    category: Optional[str] = None
-
-
-
-    """
-    Examples:
-
-    Windows Forensics
-    Network Analysis
-    Mobile Security
-    Malware
-    """
-
-
+    # Fundamental skill being tested
+    skill: Optional[str] = Field(
+        default=None,
+        index=True,
+    )
 
     # =====================================
     # DIFFICULTY
     # =====================================
 
     difficulty: str = Field(
-        default="beginner"
+        default="easy",
+        index=True,
     )
 
+    # =====================================
+    # MISSION TYPE
+    # =====================================
 
-    """
-    beginner
-    intermediate
-    advanced
-    expert
-    """
+    # General mission category
+    category: Optional[str] = Field(
+        default="application",
+    )
 
-
+    # Mission = skill application
+    # Case = investigation
+    mission_type: str = Field(
+        default="skill",
+    )
 
     # =====================================
-    # GAMIFICATION
+    # GENERATION
+    # =====================================
+
+    # Determines which scenario generator is used.
+    #
+    # Examples:
+    #   binary_arithmetic
+    #   boolean_logic
+    #   character_coding
+    #   fundamental
+    #
+    generator_type: str = Field(
+        default="fundamental",
+    )
+
+    # =====================================
+    # REWARDS
     # =====================================
 
     xp_reward: int = Field(
-        default=100
+        default=100,
     )
 
-
-
-    estimated_time: Optional[int] = None
-
-
-    """
-    Estimated completion time
-    in minutes
-    """
-
-
-
-    # =====================================
-    # PROGRESSION
-    # =====================================
-
-    required_level: int = Field(
-        default=1
-    )
-
-
-
-    prerequisite_mission_id: Optional[int] = Field(
-        default=None,
-        foreign_key="missions.id"
-    )
-
-
+    badge_reward: Optional[str] = None
 
     # =====================================
     # STATUS
     # =====================================
 
-    active: bool = Field(
-        default=True
+    is_active: bool = Field(
+        default=True,
     )
-
-
-
-    created_by: Optional[int] = Field(
-        default=None,
-        foreign_key="users.id"
-    )
-
-
-
-    # =====================================
-    # TIMESTAMPS
-    # =====================================
 
     created_at: datetime = Field(
-        default_factory=datetime.utcnow
+        default_factory=datetime.utcnow,
     )
-
-
 
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    tasks: list["Task"] = Relationship(
-        back_populates="mission"
+    completions: List["MissionCompletion"] = Relationship(
+        back_populates="mission",
+    )
+
+    tasks: List["Task"] = Relationship(
+        back_populates="mission",
     )

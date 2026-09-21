@@ -205,3 +205,8 @@ class CaseProgressOut(BaseModel):
     model_config = ConfigDict(
         from_attributes=True
     )
+
+
+
+# Backwards compatibility alias
+CaseOut = CaseRead

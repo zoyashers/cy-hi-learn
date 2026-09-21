@@ -8,7 +8,7 @@ from app.models.user_models import User
 from app.models.case_models import Case
 from app.models.evidence import Evidence
 from app.models.score import Score
-from app.models.timeline import TimelineEvent
+from app.models.timeline_models import TimelineEvent
 from app.models.case_models import CaseNote
 from app.models.report import Report
 

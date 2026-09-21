@@ -26,3 +26,8 @@ out/
 # OS
 .DS_Store
 Thumbs.db
+
+# Database dumps / backups
+*.sql
+*.backup
+*.bak

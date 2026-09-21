@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 
 from sqlmodel import SQLModel, Field, Relationship
 
@@ -13,14 +11,14 @@ if TYPE_CHECKING:
     from .case_assignment import CaseAssignment
     from .caseprogress_models import CaseProgress
     from .report_models import Report
-    from .timeline import TimelineEvent
-
+    from .timeline_models import TimelineEvent
+    from .case_note import CaseNote
+    from .soc_event import SOCEvent
 
 
 class Case(SQLModel, table=True):
 
     __tablename__ = "cases"
-
 
     # =====================================
     # IDENTIFIER
@@ -31,26 +29,21 @@ class Case(SQLModel, table=True):
         primary_key=True
     )
 
-
     # =====================================
     # BASIC INFORMATION
     # =====================================
 
     title: str
 
-
     description: Optional[str] = None
-
 
     status: str = Field(
         default="active"
     )
 
-
     difficulty: str = Field(
         default="beginner"
     )
-
 
     # =====================================
     # CREATOR
@@ -61,7 +54,6 @@ class Case(SQLModel, table=True):
         foreign_key="users.id"
     )
 
-
     # =====================================
     # TIMESTAMP
     # =====================================
@@ -69,7 +61,6 @@ class Case(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=datetime.utcnow
     )
-
 
     # =====================================
     # RELATIONSHIPS
@@ -82,32 +73,34 @@ class Case(SQLModel, table=True):
         }
     )
 
-
-    tasks: list["Task"] = Relationship(
+    tasks: List["Task"] = Relationship(
         back_populates="case"
     )
 
-
-    evidence: list["Evidence"] = Relationship(
+    evidence: List["Evidence"] = Relationship(
         back_populates="case"
     )
 
-
-    assignments: list["CaseAssignment"] = Relationship(
+    assignments: List["CaseAssignment"] = Relationship(
         back_populates="case"
     )
 
-
-    progress: list["CaseProgress"] = Relationship(
+    progress: List["CaseProgress"] = Relationship(
         back_populates="case"
     )
 
-
-    reports: list["Report"] = Relationship(
+    reports: List["Report"] = Relationship(
         back_populates="case"
     )
 
+    timeline_events: List["TimelineEvent"] = Relationship(
+        back_populates="case"
+    )
 
-    timeline_events: list["TimelineEvent"] = Relationship(
+    notes: List["CaseNote"] = Relationship(
+        back_populates="case"
+    )
+
+    soc_events: List["SOCEvent"] = Relationship(
         back_populates="case"
     )

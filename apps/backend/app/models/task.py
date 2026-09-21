@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 
 from sqlmodel import SQLModel, Field, Relationship
 
@@ -12,12 +10,9 @@ if TYPE_CHECKING:
     from .submission_models import Submission
 
 
-
 class Task(SQLModel, table=True):
 
     __tablename__ = "tasks"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -27,8 +22,6 @@ class Task(SQLModel, table=True):
         default=None,
         primary_key=True
     )
-
-
 
     # =====================================
     # CONNECTIONS
@@ -40,15 +33,11 @@ class Task(SQLModel, table=True):
         index=True
     )
 
-
-
     mission_id: Optional[int] = Field(
         default=None,
         foreign_key="missions.id",
         index=True
     )
-
-
 
     # =====================================
     # TASK INFORMATION
@@ -56,43 +45,15 @@ class Task(SQLModel, table=True):
 
     title: str
 
-
-
     description: Optional[str] = None
-
-
 
     task_type: str = Field(
         default="investigation"
     )
 
-
-    """
-    Task types:
-
-    investigation
-    quiz
-    evidence_analysis
-    report
-    coding
-    simulation
-    """
-
-
-
     difficulty: str = Field(
         default="beginner"
     )
-
-
-    """
-    beginner
-    intermediate
-    advanced
-    expert
-    """
-
-
 
     # =====================================
     # REWARD SYSTEM
@@ -102,13 +63,9 @@ class Task(SQLModel, table=True):
         default=50
     )
 
-
-
     max_score: int = Field(
         default=100
     )
-
-
 
     # =====================================
     # TASK REQUIREMENTS
@@ -118,13 +75,9 @@ class Task(SQLModel, table=True):
         default=True
     )
 
-
-
     order_number: int = Field(
         default=1
     )
-
-
 
     # =====================================
     # STATUS
@@ -134,8 +87,6 @@ class Task(SQLModel, table=True):
         default=True
     )
 
-
-
     # =====================================
     # TIMESTAMP
     # =====================================
@@ -143,8 +94,6 @@ class Task(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=datetime.utcnow
     )
-
-
 
     # =====================================
     # RELATIONSHIPS
@@ -154,14 +103,10 @@ class Task(SQLModel, table=True):
         back_populates="tasks"
     )
 
-
-
     mission: Optional["Mission"] = Relationship(
         back_populates="tasks"
     )
 
-
-
-    submissions: list["Submission"] = Relationship(
+    submissions: List["Submission"] = Relationship(
         back_populates="task"
     )

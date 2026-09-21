@@ -1,22 +1,16 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 
 from sqlmodel import SQLModel, Field, Relationship
-
 
 if TYPE_CHECKING:
     from .case_models import Case
     from .soc_event import SOCEvent
 
 
-
 class Evidence(SQLModel, table=True):
 
     __tablename__ = "evidence"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -27,8 +21,6 @@ class Evidence(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
     # CASE CONNECTION
     # =====================================
@@ -38,27 +30,17 @@ class Evidence(SQLModel, table=True):
         index=True
     )
 
-
-
     # =====================================
     # FILE INFORMATION
     # =====================================
 
     filename: str
 
-
-
     filepath: str
-
-
 
     filetype: Optional[str] = None
 
-
-
     filesize: Optional[int] = None
-
-
 
     # =====================================
     # INTEGRITY
@@ -69,11 +51,7 @@ class Evidence(SQLModel, table=True):
         index=True
     )
 
-
-
     md5: Optional[str] = None
-
-
 
     # =====================================
     # EVIDENCE DETAILS
@@ -81,40 +59,11 @@ class Evidence(SQLModel, table=True):
 
     description: Optional[str] = None
 
-
-
     evidence_type: str = Field(
         default="digital_file"
     )
 
-
-    """
-    Types:
-
-    digital_file
-    disk_image
-    memory_dump
-    network_capture
-    mobile_application
-    log_file
-    document
-    """
-
-
-
     source: Optional[str] = None
-
-
-    """
-    Examples:
-
-    Windows Machine
-    Android Device
-    Network Capture
-    Lab Environment
-    """
-
-
 
     # =====================================
     # CHAIN OF CUSTODY FOUNDATION
@@ -125,11 +74,7 @@ class Evidence(SQLModel, table=True):
         foreign_key="users.id"
     )
 
-
-
     collection_notes: Optional[str] = None
-
-
 
     # =====================================
     # TIMESTAMP
@@ -139,23 +84,17 @@ class Evidence(SQLModel, table=True):
         default_factory=datetime.utcnow
     )
 
-
-
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
+    case: "Case" = Relationship(
         back_populates="evidence"
     )
 
-
-    soc_events: list["SOCEvent"] = Relationship(
+    soc_events: List["SOCEvent"] = Relationship(
         back_populates="evidence"
     )
-
-
-
 
 
 # =====================================================
@@ -166,21 +105,15 @@ class EvidenceAnalysis(SQLModel, table=True):
 
     __tablename__ = "evidence_analysis"
 
-
-
     id: Optional[int] = Field(
         default=None,
         primary_key=True
     )
 
-
-
     evidence_id: int = Field(
         foreign_key="evidence.id",
         index=True
     )
-
-
 
     # =====================================
     # ANALYSIS RESULTS
@@ -188,25 +121,9 @@ class EvidenceAnalysis(SQLModel, table=True):
 
     analyst_summary: Optional[str] = None
 
-
-
     findings: Optional[str] = None
 
-
-
     tool_used: Optional[str] = None
-
-
-    """
-    Examples:
-
-    MobSF
-    Autopsy
-    Volatility
-    Wireshark
-    """
-
-
 
     # =====================================
     # TIMESTAMP

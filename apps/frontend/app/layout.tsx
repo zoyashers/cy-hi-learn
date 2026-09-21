@@ -1,18 +1,20 @@
 import "./globals.css";
-import ThemeToggle from "../components/ThemeToggle";
-import Logo from "../components/logo";
+import type { Metadata } from "next";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+  title: "CY-HI Learn — Cyber Human Intelligence",
+  description:
+    "A practical cybersecurity learning environment built around investigation, evidence, reasoning and human behaviour.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className="bg-[var(--bg)] text-[var(--text)] min-h-screen">
-        <header className="flex items-center justify-between p-6 border-b border-[var(--border)] bg-[var(--bg-card)]">
-          <Logo />
-          <ThemeToggle />
-        </header>
-
-        <main className="p-10">{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

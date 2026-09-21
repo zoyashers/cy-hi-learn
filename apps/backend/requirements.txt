@@ -1,6 +1,6 @@
-
 bcrypt==4.0.1
-passlib[bcrypt]==1.7.4
+passlib==1.7.4
+argon2-cffi==23.1.0
 
 fastapi
 uvicorn[standard]
@@ -22,10 +22,3 @@ python-magic
 yara-python
 scapy
 weasyprint
-python-jose[cryptography]
-passlib[bcrypt]
-python-multipart
-email-validator
-python-jose
-passlib
-bcrypt

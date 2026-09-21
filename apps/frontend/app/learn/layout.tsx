@@ -2,20 +2,16 @@ import React from "react";
 import Sidebar from "@/app/components/Sidebar";
 import AIChat from "@/app/components/AIChat";
 
-export default function LearnLayout({ children }: { children: React.ReactNode }) {
+export default function LearnLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div className="flex min-h-screen bg-[#070b14] text-white">
       <Sidebar />
 
-      <main
-        style={{
-          flex: 1,
-          padding: "2rem",
-          overflowY: "auto",
-          marginLeft: "180px", // ensures content never hides behind sidebar
-          transition: "margin-left 0.3s ease",
-        }}
-      >
+      <main className="min-w-0 flex-1 overflow-y-auto p-8">
         {children}
       </main>
 

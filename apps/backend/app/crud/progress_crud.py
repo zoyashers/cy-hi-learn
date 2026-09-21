@@ -1,79 +1,56 @@
-from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.models.xp import XP
+from app.models.user_models import User
 
+
+LEVEL_THRESHOLDS = [
+    (1, 0),
+    (2, 500),
+    (3, 1200),
+    (4, 2500),
+    (5, 5000),
+    (6, 9000),
+    (7, 14000),
+]
 
 
 async def get_user_xp(
-    session:AsyncSession,
-    user_id:int
+    session: AsyncSession,
+    user_id: int,
 ):
-
-    result = await session.exec(
-        select(XP)
-        .where(
-            XP.user_id == user_id
-        )
-    )
-
-
-    return result.first()
-
+    return await session.get(User, user_id)
 
 
 async def add_xp(
-    session:AsyncSession,
-    user_id:int,
-    amount:int
+    session: AsyncSession,
+    user_id: int,
+    amount: int,
 ):
+    if amount <= 0:
+        raise ValueError("XP amount must be greater than 0")
 
-    xp = await get_user_xp(
-        session,
-        user_id
-    )
+    user = await session.get(User, user_id)
 
+    if not user:
+        return None
 
-    if xp:
+    user.xp += amount
 
-        xp.amount += amount
-
-
-    else:
-
-        xp = XP(
-            user_id=user_id,
-            amount=amount
-        )
-
-        session.add(xp)
-
+    session.add(user)
 
     await session.commit()
+    await session.refresh(user)
 
-    await session.refresh(xp)
-
-    return xp
-
+    return user
 
 
-def get_user_level(
-    total_xp:int
-):
+def get_user_level(total_xp: int) -> int:
+    level = 1
 
-    if total_xp < 100:
-        return 1
+    for lvl, threshold in LEVEL_THRESHOLDS:
+        if total_xp >= threshold:
+            level = lvl
+        else:
+            break
 
-    if total_xp < 250:
-        return 2
-
-    if total_xp < 500:
-        return 3
-
-    if total_xp < 1000:
-        return 4
-
-    if total_xp < 2000:
-        return 5
-
-    return 6
+    return level

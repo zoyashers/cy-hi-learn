@@ -11,12 +11,9 @@ if TYPE_CHECKING:
     from .user_models import User
 
 
-
 class CaseProgress(SQLModel, table=True):
 
     __tablename__ = "case_progress"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -27,8 +24,6 @@ class CaseProgress(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
     # CONNECTIONS
     # =====================================
@@ -38,13 +33,10 @@ class CaseProgress(SQLModel, table=True):
         index=True
     )
 
-
     user_id: int = Field(
         foreign_key="users.id",
         index=True
     )
-
-
 
     # =====================================
     # PROGRESS TRACKING
@@ -54,39 +46,21 @@ class CaseProgress(SQLModel, table=True):
         default=0
     )
 
-
-    """
-    Example:
-
-    0
-    25
-    50
-    100
-    """
-
-
-
     completed_tasks: int = Field(
         default=0
     )
-
 
     total_tasks: int = Field(
         default=0
     )
 
-
-
     completed_evidence: int = Field(
         default=0
     )
 
-
     total_evidence: int = Field(
         default=0
     )
-
-
 
     # =====================================
     # STATUS
@@ -96,44 +70,26 @@ class CaseProgress(SQLModel, table=True):
         default="not_started"
     )
 
-
-    """
-    Possible:
-
-    not_started
-    in_progress
-    submitted
-    completed
-    """
-
-
-
     # =====================================
     # TIME TRACKING
     # =====================================
 
     started_at: Optional[datetime] = None
 
-
     completed_at: Optional[datetime] = None
-
-
 
     updated_at: datetime = Field(
         default_factory=datetime.utcnow
     )
 
-
-
     # =====================================
     # RELATIONSHIPS
     # =====================================
 
-    case: Optional["Case"] = Relationship(
+    case: Case = Relationship(
         back_populates="progress"
     )
 
-
-    user: Optional["User"] = Relationship(
+    user: User = Relationship(
         back_populates="case_progress"
     )

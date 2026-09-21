@@ -8,16 +8,11 @@ from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
     from .user_models import User
-    from .case_models import Case
-    from .mission import Mission
-
 
 
 class Score(SQLModel, table=True):
 
     __tablename__ = "scores"
-
-
 
     # =====================================
     # IDENTIFIER
@@ -28,8 +23,6 @@ class Score(SQLModel, table=True):
         primary_key=True
     )
 
-
-
     # =====================================
     # CONNECTIONS
     # =====================================
@@ -39,19 +32,15 @@ class Score(SQLModel, table=True):
         index=True
     )
 
-
     case_id: Optional[int] = Field(
         default=None,
         foreign_key="cases.id"
     )
 
-
     mission_id: Optional[int] = Field(
         default=None,
         foreign_key="missions.id"
     )
-
-
 
     # =====================================
     # SCORE INFORMATION
@@ -61,37 +50,17 @@ class Score(SQLModel, table=True):
         default=0
     )
 
-
     max_points: int = Field(
         default=100
     )
-
-
 
     percentage: float = Field(
         default=0
     )
 
-
-
     grade: Optional[str] = None
 
-
-    """
-    Examples:
-
-    A
-    B
-    C
-    D
-    F
-    """
-
-
-
     feedback: Optional[str] = None
-
-
 
     # =====================================
     # ASSESSMENT STATUS
@@ -101,16 +70,6 @@ class Score(SQLModel, table=True):
         default="pending"
     )
 
-
-    """
-    pending
-    reviewed
-    approved
-    returned
-    """
-
-
-
     # =====================================
     # TIMESTAMPS
     # =====================================
@@ -119,15 +78,12 @@ class Score(SQLModel, table=True):
         default_factory=datetime.utcnow
     )
 
-
     reviewed_at: Optional[datetime] = None
-
-
 
     # =====================================
     # RELATIONSHIP
     # =====================================
 
-    user: Optional["User"] = Relationship(
+    user: User = Relationship(
         back_populates="scores"
     )
