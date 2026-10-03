@@ -5,56 +5,67 @@ university-level theory and practical investigation skills. The platform contain
 a university LMS and practical cyber-training platform.
 
 The problem
+
 Cybersecurity students can understand theoretical concepts without being able to apply them 
-in real life. This is a real issue. The common difficulties I had found are:
+in real life. This is a real issue.
+
+The common difficulties I had found are:
+
 knowing where to start an inverstigation
-connecting cybersecurity concepts together
-translating theory into practical scenarios
-distinguishing suspicious activity from confirmed malicious activity
-developing structured investigation and evidence-analysis skills.
+Connecting cybersecurity concepts together
+Translating theory into practical scenarios
+Distinguishing suspicious activity from confirmed malicious activity
+Developing structured investigation and evidence-analysis skills.
 
 CY-HI is designed to address these gaps through structured learning and practice.It is being
 developed around structured cybersecurity learning paths, beginning with digital forensics.
 
 The learning experience sepeates:
-learning - concepts ,explanations and guided learning
+
+Learning - concepts ,explanations and guided learning
 Missions - practical investigation scenarios
-cases - broader investigation based activities
-progress - XP, levels, ranks and achievements
+Cases - broader investigation based activities
+Progress - XP, levels, ranks and achievements
 Tutor support - AI-assisted explanations and learning support (coming soom)
 
-the technical stack
-frontend:
-next.js
-react
-javascript/typescript
+The technical stack
+
+Frontend:
+Next.js
+REACT
+Javascript/typescript
 
 Backend:
+
 FastAPI 
 Python
 SQLModel/SQLAlchemy
 
 Database
+
 PostgreSQL
 
-infrastructure
+Infrastructure
+
 Docker
 Docker Compose
 
 Current features
-user authentication
+
+User authentication
 Learning units and topics
-practical cybersecurity missions
-mission attempts and completion tracking
+Practical cybersecurity missions
+Mission attempts and completion tracking
 Difficulty levels
-hints and XP rewards
-levels and ranking
-progress tracjing
-digital forensics learning content
+Hints and XP rewards
+Levels and ranking
+Progress tracjing
+Digital forensics learning content
 Backend API infrastructure
 Database-backed learning data 
 
 Mission-based learning
+
 This is used to push students out of their conmfort zone and turn them into independent 
 investigators.Example missions include Suspicious USB device,Trace the intrusion,compromised
 account.
@@ -62,29 +73,33 @@ account.
 Missions can include different difficulty levels, hints and XP rewards.
 
 The aim is to develop students ability to:
-identify relevant evidence
-form an investigative hypothesis
-analyse available evidence
-avoid unsupported conclusions 
-communicate finding clearly.
+
+Identify relevant evidence
+Form an investigative hypothesis
+Analyse available evidence
+Avoid unsupported conclusions 
+Communicate finding clearly.
 
 Development approach
+
 CY-HI is being developed iteratively, with functionality tested and stabilised as the platforn
 grows.Current development includes Backend stabilisation, authentication, mission completion
 and progression system , database relationships and frontend integration.
 
 Future developments include:
+
 AI tutor functionality
 AI-assisted question and mission generation
-automated assessment/grading
-lecturer dashboards
-student progress monitoring 
-cybersecurity investigation environment
+Automated assessment/grading
+Lecturer dashboards
+Student progress monitoring 
+Cybersecurity investigation environment
 SOC/terminal-based practical activities
 Institutional pilot functionality
-career and skills development features
+Career and skills development features
 
-vision
+Vision
+
 CY-HI aims to make cybersecurity education more practical, investigative and accessible.Finally,
 putting students first to really help them land their first jobs in the cyber industry.
 
@@ -94,4 +109,5 @@ experimetn which you can see in my 30 day experiment repository(intended to cont
 So if you are interested please have a look at that too.
 
 FLY HIGH WITH CY-HI
+
 CYBER LEARNING HUMAN IMPACT.
