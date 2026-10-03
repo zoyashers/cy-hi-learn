@@ -3,7 +3,7 @@ CY-HI Learn
 CY-HI Learn is a cybersecurity learning platform, which is designed to bridge the gap between 
 university-level theory and practical investigation skills. The platform contains elements of 
 a university LMS and practical cyber-training platform.
-
+ 
 The problem
 
 Cybersecurity students can understand theoretical concepts without being able to apply them 
