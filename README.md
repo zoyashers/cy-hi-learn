@@ -1,13 +1,17 @@
 CY-HI Learn
 
+FLY HIGH WITH CY-HI
+
+Cyber Learning Human Impact
+
+
 CY-HI Learn is a cybersecurity learning platform, which is designed to bridge the gap between 
 university-level theory and practical investigation skills. The platform contains elements of 
-a university LMS and practical cyber-training platform.
+a university LMS and practical cyber-training platform, with the long-term aim of helping students develop the reasoning ,investigation and communication skills needed to move from academic learning into the cybersecurity industry.
  
 The problem
 
-Cybersecurity students can understand theoretical concepts without being able to apply them 
-in real life. This is a real issue.
+Cybersecurity students can understand theoretical concepts without having enough opportunities to  to apply them  to realistic investigations.
 
 The common difficulties I had found are:
 
@@ -16,6 +20,7 @@ Connecting cybersecurity concepts together
 Translating theory into practical scenarios
 Distinguishing suspicious activity from confirmed malicious activity
 Developing structured investigation and evidence-analysis skills.
+Communicating finding clearly
 
 CY-HI is designed to address these gaps through structured learning and practice.It is being
 developed around structured cybersecurity learning paths, beginning with digital forensics.
@@ -39,7 +44,8 @@ Backend:
 
 FastAPI 
 Python
-SQLModel/SQLAlchemy
+SQLModel
+SQLAlchemy
 
 Database
 
@@ -57,9 +63,10 @@ Learning units and topics
 Practical cybersecurity missions
 Mission attempts and completion tracking
 Difficulty levels
-Hints and XP rewards
+Hints 
+XP rewards
 Levels and ranking
-Progress tracjing
+Progress tracking
 Digital forensics learning content
 Backend API infrastructure
 Database-backed learning data 
@@ -80,11 +87,23 @@ Analyse available evidence
 Avoid unsupported conclusions 
 Communicate finding clearly.
 
+A key principle behind CY-HI is that suspicious activity should not automatically be treated as confirmed malicious activity. Students should be encouraged to examine evidence and justify their concludions.
+
 Development approach
 
 CY-HI is being developed iteratively, with functionality tested and stabilised as the platforn
-grows.Current development includes Backend stabilisation, authentication, mission completion
-and progression system , database relationships and frontend integration.
+grows.
+
+Current development includes:
+
+Backend stabilisation
+authentication
+mission completion
+progression system
+Database relationships
+Frontend integration
+
+The platform is still an evolving prototype and some aspects of its learning design are deliberately subject to change.
 
 Future developments include:
 
@@ -97,6 +116,18 @@ Cybersecurity investigation environment
 SOC/terminal-based practical activities
 Institutional pilot functionality
 Career and skills development features
+
+These represent development directions rather than completed functionality.
+
+Research and development
+
+CY-HI is being developed alongside ongoing research into how cybersecurity can be taught more effectively. Some current documentation and learning assumptions are therefore subject to change as further research and experimentation is carried out.
+
+This includes findings from an ongoing 30-Day Cybersecurity Experiment,which is intentded to continue beyond the initioal 30 days.The experiment is being used to explore practical cybersecurity learning.investigation reasoning and the development of skills that can inform the future design of CY-HI
+
+30 day experiment:
+
+see the accompanying repository for the ongoing experiment and its findings.
 
 Vision
 
