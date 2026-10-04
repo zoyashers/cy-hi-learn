@@ -14,16 +14,16 @@ Current System
 
 Completed
 
- FastAPI backend
- Next.js frontend
- PostgreSQL database
- Docker environment
- Mission engine
- XP/progression system
- Learning path structure
+FastAPI backend
+Next.js frontend
+PostgreSQL database
+Docker environment
+Mission engine
+XP/progression system
+Learning path structure
 Current Development Priority
 
- 1. Authentication and Roles
+1. Authentication and Roles
 
 Users:
 
